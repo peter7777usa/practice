@@ -12,6 +12,7 @@
 		4051C0C526A0025600C0BE68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4051C0C426A0025600C0BE68 /* Assets.xcassets */; };
 		4051C0C826A0025600C0BE68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4051C0C626A0025600C0BE68 /* LaunchScreen.storyboard */; };
 		4051C0D026A00B0500C0BE68 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4051C0CF26A00B0500C0BE68 /* SceneDelegate.swift */; };
+		407DD89F26A21F310010CB30 /* CountingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407DD89E26A21F310010CB30 /* CountingTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		4051C0C726A0025600C0BE68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4051C0C926A0025600C0BE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4051C0CF26A00B0500C0BE68 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		407DD89E26A21F310010CB30 /* CountingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountingTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,8 @@
 		4051C0BA26A0025400C0BE68 /* interview */ = {
 			isa = PBXGroup;
 			children = (
+				407DD8A126A229370010CB30 /* Model */,
+				407DD8A026A21F350010CB30 /* Views */,
 				4051C0BB26A0025400C0BE68 /* AppDelegate.swift */,
 				4051C0CF26A00B0500C0BE68 /* SceneDelegate.swift */,
 				4051C0BF26A0025400C0BE68 /* InitialViewController.swift */,
@@ -62,6 +66,21 @@
 				4051C0C926A0025600C0BE68 /* Info.plist */,
 			);
 			path = interview;
+			sourceTree = "<group>";
+		};
+		407DD8A026A21F350010CB30 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				407DD89E26A21F310010CB30 /* CountingTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		407DD8A126A229370010CB30 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				407DD89F26A21F310010CB30 /* CountingTableViewCell.swift in Sources */,
 				4051C0C026A0025400C0BE68 /* InitialViewController.swift in Sources */,
 				4051C0BC26A0025400C0BE68 /* AppDelegate.swift in Sources */,
 				4051C0D026A00B0500C0BE68 /* SceneDelegate.swift in Sources */,
