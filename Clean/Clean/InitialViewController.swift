@@ -16,6 +16,8 @@ class InitialViewController: UIViewController {
 
     var testUIView = UIView()
 
+    var frameCovering = UIView()
+
     private var second = 0
     private var minute = 0
 
@@ -61,6 +63,66 @@ class InitialViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         setupClockHands()
+        //setupTestViewStuff()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("testUIView frame ", self.testUIView.frame)
+    }
+
+    func setupTestViewStuff() {
+        frameCovering.isMultipleTouchEnabled = true
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        frameCovering.addGestureRecognizer(panGesture)
+    }
+
+    @objc func handlePan(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .began:
+            print("begin")
+        case .changed:
+            //print(getCenterOfTouches(sender: sender))
+
+            let centerPoint = getCenterOfTouches(sender: sender)
+            let oldAnchorPoint = frameCovering.layer.anchorPoint
+            let newAnchorPoint = CGPoint(x: centerPoint.x / frameCovering.bounds.width, y: centerPoint.y / frameCovering.bounds.height)
+            let offSetFromMovingAnchorPointX = frameCovering.bounds.width * (newAnchorPoint.x - oldAnchorPoint.x)
+            let offSetFromMovingAnchorPointY = frameCovering.bounds.width * (newAnchorPoint.y - oldAnchorPoint.y)
+
+            frameCovering.transform = CGAffineTransform(translationX: offSetFromMovingAnchorPointX, y: offSetFromMovingAnchorPointY)
+            frameCovering.layer.anchorPoint = newAnchorPoint
+            //print("changed")
+        case .cancelled:
+            print("cancelled")
+        case .ended:
+            print("ended")
+        default:
+            break
+        }
+    }
+
+    private func getCenterOfTouches(sender: UIPanGestureRecognizer) -> CGPoint {
+        var touchesPoints = [CGPoint]()
+        print ("sender.numberOfTouches ", sender.numberOfTouches )
+        var midX: CGFloat = 0
+        var midY: CGFloat = 0
+        for touchIndex in 0..<sender.numberOfTouches {
+            print("point ", sender.location(ofTouch: touchIndex, in: frameCovering))
+
+            touchesPoints.append(sender.location(ofTouch: touchIndex, in: frameCovering))
+        }
+
+
+        for point in touchesPoints {
+            midX += point.x
+            midY += point.y
+        }
+
+        midX = midX / CGFloat(touchesPoints.count)
+        midY = midY / CGFloat(touchesPoints.count)
+
+        return CGPoint(x: midX, y: midY)
     }
 
     func setupClockHands() {
@@ -68,6 +130,11 @@ class InitialViewController: UIViewController {
         minuteHandImageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         secondHandImageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
 
+
+        frameCovering = UIView(frame: CGRect(x: 18.22330470336314, y: 245.2233047033631, width: 353.5533905932738, height: 353.55339059327383))
+        frameCovering.backgroundColor = .systemRed
+
+        self.view.addSubview(frameCovering)
         self.view.addSubview(testUIView)
         self.view.addSubview(hourHandImageView)
         self.view.addSubview(minuteHandImageView)
@@ -107,10 +174,9 @@ class InitialViewController: UIViewController {
         self.view.addConstraint(NSLayoutConstraint(item: testUIView, attribute:.centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1, constant: 0))
 
         self.testUIView.rotate(angle: 45)
-        print("testUIView frame ", testUIView.frame)
 
-        self.testUIView.addConstraint(NSLayoutConstraint(item: testUIView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 300))
-        self.testUIView.addConstraint(NSLayoutConstraint(item: testUIView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 300))
+        self.testUIView.addConstraint(NSLayoutConstraint(item: testUIView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 250))
+        self.testUIView.addConstraint(NSLayoutConstraint(item: testUIView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 250))
     }
 }
 
