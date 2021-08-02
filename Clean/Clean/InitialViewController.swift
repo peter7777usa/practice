@@ -34,38 +34,52 @@ class InitialViewController: UIViewController {
 
     @objc private func squareRotate(sender: UIRotationGestureRecognizer) {
         switch sender.state {
-        case .changed:
+        case .began:
+            if sender.numberOfTouches == 2 {
                 let point1 = sender.location(ofTouch: 0, in: square)
                 let point2 = sender.location(ofTouch: 1, in: square)
                 let midPoint = CGPoint(x: (point1.x + point2.x) / 2, y: (point1.y + point2.y) / 2)
-
-                let oldAnchorPoint = square.layer.anchorPoint
                 let newAnchorPoint = CGPoint(x: midPoint.x / square.bounds.width, y: midPoint.y / square.bounds.height)
-
-                square.layer.anchorPoint = newAnchorPoint
-
-                let offsetFromMovingAnchorPointX = square.bounds.width * (newAnchorPoint.x - oldAnchorPoint.x)
-                let offsetFromMovingAnchorPointY = square.bounds.height * (newAnchorPoint.y - oldAnchorPoint.y)
-
-               // square.transform = CGAffineTransform(translationX: offsetFromMovingAnchorPointX, y: offsetFromMovingAnchorPointY)
-
-
-
+                square.setAnchorPoint(newAnchorPoint)
+            }
+        case .changed:
+            if sender.numberOfTouches == 2 {
                 square.rotate(radians: sender.rotation)
+                sender.rotation = 0
+            }
 
-                print("in here ", midPoint,  sender.rotation)
+        case .ended:
+            print("ended")
+            square.setAnchorPoint(CGPoint(x: 0.5, y: 0.5))
 
         default:
             print("default")
         }
     }
-
-
 }
 
 extension UIView {
     func rotate(radians: CGFloat) {
         let rotation = self.transform.rotated(by: radians)
         self.transform = rotation
+    }
+
+    func setAnchorPoint(_ point: CGPoint) {
+        var newPoint = CGPoint(x: bounds.size.width * point.x, y: bounds.size.height * point.y)
+        var oldPoint = CGPoint(x: bounds.size.width * layer.anchorPoint.x, y: bounds.size.height * layer.anchorPoint.y);
+
+        newPoint = newPoint.applying(transform)
+        oldPoint = oldPoint.applying(transform)
+
+        var position = layer.position
+
+        position.x -= oldPoint.x
+        position.x += newPoint.x
+
+        position.y -= oldPoint.y
+        position.y += newPoint.y
+
+        layer.position = position
+        layer.anchorPoint = point
     }
 }
